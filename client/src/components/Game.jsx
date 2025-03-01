@@ -15,7 +15,7 @@ export const Game = () => {
   return (
     <div className='flex flex-col h-screen'>
         <Header/>
-        <ChatBox/>
+        
         
         <div className='flex flex-1 w-full justify-center overflow-hidden'>
             <motion.img src={test_img} className='rounded-md h-full object-contain'
@@ -35,6 +35,7 @@ export const Game = () => {
             }
             />
         </div>
+        <ChatBox d_width={imgWidth} d_height={imgHeight}/>
         <div>
         <TextBox d_width={imgWidth} d_height={imgHeight} 
         text={"Hmph! Took you long enough! Don’t get the wrong idea—I wasn’t waiting for you or anything… I just happened to be here, that’s all!"} 
@@ -45,16 +46,15 @@ export const Game = () => {
   )
 }
 
-const ChatBox = () => {
+const ChatBox = ({d_width, d_height}) => {
     const [{isChatBoxOpen}, dispatch] = useStateValue();  
     // const [isChatBoxOpen, setIsChatBoxOpen] = useState(false)
+    const [placeholder, setPlaceholder] = useState("Type content to chat with character...");
 
     return (
         <motion.div className='z-50 bottom-0 w-screen items-center absolute flex justify-center flex-col'
-            // initial={{  }} // 初始状态: 隐藏并向左偏移 100px
-            // animate={isChatBoxOpen ? { opacity: 1, y: -200 } : { opacity: 1, x: 0 }} // 显示时: 渐显并移动到正常位置，隐藏时: 渐隐并滑出
-            // transition={{ duration: 0.5, ease: "easeInOut" }} // 过渡动画
         >
+
             <motion.div
                 initial={{ opacity: 1, x: 0,rotate: 0 }} 
                 animate={isChatBoxOpen ? { opacity: 1, y: -200, rotate: 180 } : {opacity: 1, x: 0,rotate:0}} 
@@ -70,7 +70,31 @@ const ChatBox = () => {
                 />
             </motion.div>
 
-            <textarea className='w-full h-25'></textarea>
+            <motion.textarea className='font-semibold text-white text-3xl p-8 fixed bg-[rgba(128,255,128,0.3)]  border-black border rounded-3xl'
+            onFocus={() => setPlaceholder("")}
+            onBlur={() => setPlaceholder("Type content to chat with character...")}
+            placeholder={placeholder}
+            style={{
+                width: `${d_width}px`,
+                height: `${d_height/4}px`,
+                textShadow: `
+                -1px -1px 0 black,  
+                1px -1px 0 black,  
+                -1px  1px 0 black,  
+                1px  1px 0 black,  
+                -1px  0px 0 black,  
+                1px  0px 0 black,  
+                0px -1px 0 black,  
+                0px  1px 0 black`,
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                lineHeight: "2.5"
+            }}
+            initial={{ opacity: 1, y:200}} 
+            animate={isChatBoxOpen ? { opacity: 1, y:-50} : {opacity: 0,y:200}} 
+            transition={{ duration: 0.1, ease: "easeInOut" }} // 过渡动画
+            ></motion.textarea>
 
         </motion.div>
     )
