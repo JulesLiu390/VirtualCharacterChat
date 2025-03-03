@@ -4,6 +4,7 @@ export const actionType = {
 
     SET_ISSONG_PLAYING:"SET_ISSONG_PLAYING",
     SET_ISCHATBOX_OPEN:"SET_ISCHATBOX_OPEN",
+    SET_GAME_TEXT:"SET_GAME_TEXT",
 }
 
 const reducer = (state, action) => {
@@ -20,6 +21,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isChatBoxOpen : action.isChatBoxOpen,
+            }
+
+        case actionType.SET_GAME_TEXT:
+            return {
+                ...state,
+                gameText : action.gameText,
             }
         
         default :

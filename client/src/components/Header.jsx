@@ -3,6 +3,8 @@ import {FaCrown, FaGamepad} from "react-icons/fa6"
 import { isActiveStyles, isNotActiveStyles } from '../utils/styles'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {motion} from 'framer-motion'
+import { getAuth } from 'firebase/auth'
+import { app } from '../config/firebase.config'
 
 export const Header = () => {
 
@@ -14,10 +16,10 @@ export const Header = () => {
 
 
     const logOut = () => {
-        // const firebaseAuth = getAuth(app);
-        // firebaseAuth.signOut().then(() => {
-            // window.localStorage.setItem("auth", "false");
-        // }).catch((e) => console.log(e));
+        const firebaseAuth = getAuth(app);
+        firebaseAuth.signOut().then(() => {
+            window.localStorage.setItem("auth", "false");
+        }).catch((e) => console.log(e));
         navigate("/login", {replace : true});
     }
 
