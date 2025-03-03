@@ -1,3 +1,4 @@
 client/node_modules/.cache/ # 添加到 .gitignore 防止以后被提交
 node_modules/
-# client/node_modules/.cache/
+# client/node_modules/.cache/client/node_modules/.cache/
+client/node_modules/.cache/
