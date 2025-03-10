@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@shadcn/ui": "^0.0.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^1.8.2",
+    "elevenlabs": "^1.53.0",
     "firebase": "^11.4.0",
     "framer-motion": "^12.4.7",
     "react": "^19.0.0",

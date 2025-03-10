@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import { Home, Dashboard, CharacterPage, Login, Game, Test } from './components'
+import { Home, Dashboard, Characters, Login, Game, Test } from './components'
 import { app } from './config/firebase.config'
 import { getAuth } from 'firebase/auth'
+import NewCharacter from './components/NewCharacter'
 
 
 
@@ -34,7 +35,8 @@ function App() {
         <Route path='/login' element={<Login setAuth={setAuth}/>} />
         <Route path='/*' element={<Home></Home>} />
         <Route path='/dashboard/*' element={<Dashboard />}/>
-        <Route path='/character' element={<CharacterPage/>}/>
+        <Route path='/characters' element={<Characters/>}/>
+        <Route path='/newcharacter' element={<NewCharacter/>}/>
         <Route path='/test' element={<Test/>}/>
       </Routes>
     </div>

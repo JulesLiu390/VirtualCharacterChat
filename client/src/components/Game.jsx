@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Header from './Header';
 import { test_img } from '../assets/img';
 import {motion} from 'framer-motion'
@@ -11,10 +11,17 @@ import { app } from '../config/firebase.config';
 
 
 export const Game = () => {
-
     const [prompt, setPrompt] = useState("")
     // useStateValue
-    const [{isChatBoxOpen, gameText}, dispatch] = useStateValue();  
+    const [{isChatBoxOpen, gameText, currentCharacter, audioBase64}, dispatch] = useStateValue(); 
+
+
+    useEffect(() => {
+        dispatch({
+            type: actionType.SET_GAME_TEXT,
+            gameText: "",
+        })
+    }, [])
 
     // Initialize the Vertex AI service
     const vertexAI = getVertexAI(app);
@@ -25,11 +32,14 @@ export const Game = () => {
     const [imgWidth, setImgWidth] = useState(0)
     const [imgHeight, setImgHeight] = useState(0)
 
+
   return (
     <div className='flex flex-col h-screen'>
         <Header/>
         
-        
+        {/* <audio ref={audioRef} style={{ display: "none" }}>
+                <source src={"blob:https://elevenlabs.io/a1682cb6-a902-4377-9308-0675b501b21f"} />
+            </audio> */}
         <div className='flex flex-1 w-full justify-center overflow-hidden'>
             <motion.img src={test_img} className='rounded-md h-full object-contain'
                     animate={{
@@ -48,11 +58,12 @@ export const Game = () => {
             }
             />
         </div>
-        <ChatBox d_width={imgWidth} d_height={imgHeight}/>
+        <ChatBox d_width={imgWidth} d_height={imgHeight}
+        />
         <div>
         <TextBox d_width={imgWidth} d_height={imgHeight} 
         text={gameText} 
-        name={"???"}
+        name={currentCharacter?.name}
         speed={50}></TextBox>
         </div>
     </div>
@@ -62,7 +73,7 @@ export const Game = () => {
 const ChatBox = ({d_width, d_height}) => {
     const [prompt, setPrompt] = useState("")
     // useStateValue
-    const [{isChatBoxOpen, gameText}, dispatch] = useStateValue();  
+    const [{isChatBoxOpen, gameText, currentCharacter, audioBase64}, dispatch] = useStateValue();  
 
     // Initialize the Vertex AI service
     const vertexAI = getVertexAI(app);
@@ -70,24 +81,25 @@ const ChatBox = ({d_width, d_height}) => {
     const model = getGenerativeModel(vertexAI, { model: "gemini-2.0-flash" });
     // Wrap in an async function so you can use await
 
+    const firstPrompt = "Now, you are a character with informations I gave you, please chat with me in English with those informations:" + currentCharacter?.description + ";name:" + currentCharacter?.name + ""
+
     const [history, setHistory] = useState([
         {
             role: "user",
-            // parts: [{ text: "Now, You are pretend as a high school girl to chat with me, thank you." }],
-            parts: [{ text: "现在开始，你将作为一名日本女高中生与我展开中文对话，谢谢！" }],
-
-
+            parts: [{ text: firstPrompt }],
         },
         {
             role: "model",
-            parts: [{ text: "可以" }],
+            parts: [{ text: "可以 YES" }],
 
         },
     ]); // 聊天记录
 
+
     const promptChange = (e) => {
         setPrompt(e.target.value);
     }
+
 
 
 
@@ -98,7 +110,7 @@ const ChatBox = ({d_width, d_height}) => {
         const chat = model.startChat({
             history,
             generationConfig: {
-            maxOutputTokens: 20,
+            maxOutputTokens: 60,
             },
         });
         
@@ -108,6 +120,8 @@ const ChatBox = ({d_width, d_height}) => {
         
         const response = await result.response;
         const text = response.text();
+        await fetchAudioBase64(text);
+        // await new Promise(resolve => setTimeout(resolve, 1000 * text.length()/100));
 
         // 添加用户消息
         const newUserMessage = { role: "user", parts: [{ text: prompt }] };
@@ -117,12 +131,13 @@ const ChatBox = ({d_width, d_height}) => {
         const newAIMessage = { role: "model", parts: [{ text: text }] };
         const finalHistory = [...updatedHistory, newAIMessage]; // 记录 AI 的回复
         setHistory(finalHistory);
-        console.log(history);
+        // console.log(history);
         dispatch({
             type: actionType.SET_GAME_TEXT,
             gameText: text,
         })
-        console.log(text);
+        
+        // console.log(text);
     }
 
     const clickSend = () => {
@@ -134,9 +149,56 @@ const ChatBox = ({d_width, d_height}) => {
         })
     }
 
+    let globalAudioElement = null;
+
+
+    async function fetchAudioBase64(text) {
+        console.log("test:" + text);
+        const response = await fetch("http://localhost:4000/api/textToSpeech/synthesize", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            text: text,
+            voiceId: "amiAXapsDOAiHJqbsAZj",
+          })
+        });
+      
+        const data = await response.json();
+        if (!data.success) {
+          console.error("Failed to fetch audio");
+          return;
+        }
+      
+        // 手动拼接 `data:audio/mpeg;base64,`
+        const audioSrc = `data:audio/mpeg;base64,${data.audio}`;
+        console.log(data.audio)
+      
+        // 复用全局 Audio 元素
+        if (!globalAudioElement) {
+            globalAudioElement = document.createElement("audio");
+            globalAudioElement.controls = false; // 隐藏控件
+            document.body.appendChild(globalAudioElement);
+        }
+
+        globalAudioElement.src = audioSrc;
+        globalAudioElement.play();
+      }
+
+    const getAudioBase64 = (text) => {
+
+    }
+    
+
+
+
+
+    
     return (
         <motion.div className='z-50 bottom-0 w-screen items-center absolute flex justify-center flex-col'
         >
+
 
             <motion.div
                 initial={{ opacity: 1, x: 0,rotate: 0 }} 

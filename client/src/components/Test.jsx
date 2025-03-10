@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { getVertexAI, getGenerativeModel } from "firebase/vertexai";
-// import {} from ""
 import { app } from '../config/firebase.config';
 import { useStateValue } from '../content/StateProvider';
 import { actionType } from '../content/reducer';
+// import Test2 from './CharacterBackgroundInput';
 
 export const Test = () => {
     const [prompt, setPrompt] = useState("")
@@ -67,10 +67,16 @@ export const Test = () => {
     const send_value = () => {
         run();
     }
+//     const audio = new Audio("blob:https://elevenlabs.io/a1682cb6-a902-4377-9308-0675b501b21f");
+// audio.play();
 
   
   return (
     <div>
+        <audio controls>
+        <source src="blob:https://elevenlabs.io/a1682cb6-a902-4377-9308-0675b501b21f" />
+        {/* Your browser does not support the audio element. */}
+      </audio>
         <textarea className='w-32 h-32' value={prompt} onChange={promptChange}></textarea>
         <button
         onClick={send_value}
