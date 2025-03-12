@@ -28,6 +28,10 @@ app.use("/api/characters/", characterRoutes);
 const textToSpeechRoutes = require("./routes/textToSpeech")
 app.use("/api/textToSpeech/", textToSpeechRoutes)
 
+// TTI Routes
+const textToImageRoutes = require("./routes/textToImage")
+app.use("/api/textToImage/", textToImageRoutes)
+
 mongoose.connect(process.env.DB_STRING, {useNewUrlParser : true});
 mongoose.connection
 .once("open", () => console.log("Connected"))

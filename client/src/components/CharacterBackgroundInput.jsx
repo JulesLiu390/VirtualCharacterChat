@@ -7,11 +7,11 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
     name: "",
     personality: "",
-    description: "", // description 现在是字符串
   });
 
   // 需要合并到 description 的字段
-  const descriptionFields = {
+  const backgroundFields = {
+    personality: "",
     gender: "",
     occupation: "",
     catchphrase: "",
@@ -26,13 +26,13 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
   };
 
   // 额外存储 description 相关的字段
-  const [descriptionData, setDescriptionData] = useState(descriptionFields);
+  const [backgroundData, setBackgroundData] = useState(backgroundFields);
 
   // 处理输入变化
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "name" || name === "personality") {
+    if (name === "name") {
       // 直接更新 name 或 personality
       setFormData((prevData) => ({
         ...prevData,
@@ -40,22 +40,22 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
       }));
     } else {
       // 更新 description 相关字段
-      const updatedDescriptionData = {
-        ...descriptionData,
+      const updatedBackgroundData = {
+        ...backgroundData,
         [name]: value,
       };
 
-      setDescriptionData(updatedDescriptionData);
+      setBackgroundData(updatedBackgroundData);
 
       // 动态拼接 description
-      const newDescription = Object.entries(updatedDescriptionData)
+      const newDescription = Object.entries(updatedBackgroundData)
         .filter(([_, val]) => val.trim() !== "") // 过滤掉空值
         .map(([key, val]) => `${getLabel(key)}: ${val}`) // 转成人类可读的文本
         .join("; ");
 
       setFormData((prevData) => ({
         ...prevData,
-        description: newDescription,
+        personality: newDescription,
       }));
     }
   };
@@ -77,13 +77,13 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
     >
       <div className="w-[50vh] h-[30vh] bg-[rgba(255,255,255,0.3)] rounded-t-full flex flex-col justify-center items-center">
         <p className="text-3xl font-bold">-SETTINGS-</p>
-        <p className="text-4xl font-bold">Character Sheet</p>
+        <p className="text-4xl font-bold">Character Background</p>
       </div>
       <div className="w-[50vh] h-[60vh] bg-[rgba(255,255,255,0.3)] rounded-b-3xl">
         <div className="flex w-full h-full gap-8 justify-evenly">
           <div className="flex flex-col w-[80%] h-full justify-evenly">
             {/* 独立字段 */}
-            {["name", "personality"].map((key) => (
+            {["name"].map((key) => (
               <div key={key} className="w-full flex justify-between items-center">
                 <div className="text-[rgba(133,119,109,1)] text-sm rounded-md bg-[rgba(245,230,211,1)] flex items-center justify-center gap-1">
                   <BsBanFill />
@@ -100,7 +100,7 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
             ))}
 
             {/* 其他字段合并到 description */}
-            {Object.keys(descriptionFields).map((key) => (
+            {Object.keys(backgroundFields).map((key) => (
               <div key={key} className="w-full flex justify-between items-center">
                 <div className="text-[rgba(133,119,109,1)] text-sm rounded-md bg-[rgba(245,230,211,1)] flex items-center justify-center gap-1">
                   <BsBanFill />
@@ -110,7 +110,7 @@ const CharacterBackgroundInput = forwardRef((props, ref) => {
                   className="rounded-lg w-2/3 bg-transparent border border-gray-500"
                   type="text"
                   name={key}
-                  value={descriptionData[key]}
+                  value={backgroundData[key]}
                   onChange={handleChange}
                 />
               </div>

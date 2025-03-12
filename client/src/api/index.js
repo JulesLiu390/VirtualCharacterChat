@@ -33,3 +33,16 @@ export const getAudio64 = async (text, voiceId) => {
         return null;
     }
 };
+
+export const getImage64 = async (prompt) => {
+    try {
+        const res = await axios.post(`${baseURL}api/textToImage/generate/`, {
+            "prompt": "a futuristic cyberpunk city with neon lights at night"
+        });
+
+        return res.data.image; // 只返回 Base64 音频数据
+    } catch (error) {
+        console.error("Error fetching image:", error);
+        return null;
+    }
+};

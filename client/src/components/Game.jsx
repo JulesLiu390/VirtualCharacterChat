@@ -45,10 +45,7 @@ export const Game = () => {
   return (
     <div className='flex flex-col h-screen'>
         <Header/>
-        
-        {/* <audio ref={audioRef} style={{ display: "none" }}>
-                <source src={"blob:https://elevenlabs.io/a1682cb6-a902-4377-9308-0675b501b21f"} />
-            </audio> */}
+
         <div className='flex flex-1 w-full justify-center overflow-hidden'>
             <motion.img src={test_img} className='rounded-md h-full object-contain'
                     animate={{
@@ -113,7 +110,7 @@ const ChatBox = ({d_width, d_height, jsonData, setJsonData}) => {
     });
     // Wrap in an async function so you can use await
 
-    const firstPrompt = "Now, you are a character with informations I gave you, please chat with me in English with those informations:" + currentCharacter?.description + ";name:" + currentCharacter?.name + "remeber, everytime your response should controled in 1 to 3 sentences."
+    const firstPrompt = "Now, you are a character with informations I gave you, please chat with me in English with those informations:" + currentCharacter?.personality + ";name:" + currentCharacter?.name + "remeber, everytime your response should controled in 1 to 3 sentences."
 
     const [history, setHistory] = useState([
         {
@@ -203,7 +200,7 @@ const ChatBox = ({d_width, d_height, jsonData, setJsonData}) => {
           },
           body: JSON.stringify({
             text: text,
-            voiceId: "21m00Tcm4TlvDq8ikWAM",
+            voiceId: "A8d1lobSeZaSLrXNNZ1x",
           })
         });
       
