@@ -5,8 +5,10 @@ Virtual Character Chat is an AI-based chat application that allows users to crea
 ---
 
 ## 🎨 Screenshots
-If your project has a UI, add some screenshots here to enhance readability! 📷
-
+![alt text](https://imgur.com/ckm9K2b)
+![alt text](https://imgur.com/29Bm9lQ)
+![alt text](https://imgur.com/eHGAupo)
+![alt text](https://imgur.com/cq0Svyo)
 ---
 
 ## 📂 Project Structure
