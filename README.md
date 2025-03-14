@@ -2,6 +2,13 @@
 
 Virtual Character Chat is an AI-based chat application that allows users to create personalized virtual characters and interact with them using text-to-speech (TTS) capabilities. The project includes both frontend and backend components, utilizing Firebase for authentication, MongoDB for data storage, and Gemini API for intelligent responses. Additionally, images are generated using DALL·E.
 
+---
+
+## 🎨 Screenshots
+If your project has a UI, add some screenshots here to enhance readability! 📷
+
+---
+
 ## 📂 Project Structure
 ```
 VIRTUAL_CHARACTER_CHAT
@@ -139,11 +146,6 @@ yarn node app.js
 
 ---
 
-## 🎨 Screenshots (Optional)
-If your project has a UI, add some screenshots here to enhance readability! 📷
-
----
-
 ## 🤝 Contribution Guide
 1. **Fork** this repository
 2. **Create** a new branch (`git checkout -b feature-branch`)
@@ -155,4 +157,3 @@ If your project has a UI, add some screenshots here to enhance readability! 📷
 
 ## 📜 License
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
