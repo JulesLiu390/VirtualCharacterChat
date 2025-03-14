@@ -28,11 +28,15 @@ app.use("/api/characters/", characterRoutes);
 const textToSpeechRoutes = require("./routes/textToSpeech")
 app.use("/api/textToSpeech/", textToSpeechRoutes)
 
+
 // TTI Routes
 const textToImageRoutes = require("./routes/textToImage")
 app.use("/api/textToImage/", textToImageRoutes)
 
-mongoose.connect(process.env.DB_STRING, {useNewUrlParser : true});
+
+mongoose.connect(process.env.DB_STRING)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("MongoDB connection error:", error));
 mongoose.connection
 .once("open", () => console.log("Connected"))
 .on("error", (error) => {

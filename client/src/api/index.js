@@ -34,15 +34,42 @@ export const getAudio64 = async (text, voiceId) => {
     }
 };
 
+export const newVoice = async (voiceDescription) => {
+    try {
+        const res = await axios.post(`${baseURL}api/textToSpeech/newVoice/`, {
+            voiceDescription: voiceDescription,
+            text: "Every act of kindness, no matter how small, carries value and can make a difference, as no gesture of goodwill is ever wasted."
+        });
+
+        return res.data.voice_id; 
+    } catch (error) {
+        console.error("Error fetching voice_id:", error);
+        return null;
+    }
+};
+
 export const getImage64 = async (prompt) => {
     try {
         const res = await axios.post(`${baseURL}api/textToImage/generate/`, {
-            "prompt": "a futuristic cyberpunk city with neon lights at night"
+            "prompt": prompt
         });
 
         return res.data.image; // 只返回 Base64 音频数据
     } catch (error) {
         console.error("Error fetching image:", error);
+        return null;
+    }
+};
+
+export const getAvatar64 = async (prompt) => {
+    try {
+        const res = await axios.post(`${baseURL}api/textToImage/avatar/`, {
+            "prompt": prompt
+        });
+
+        return res.data.image; // 只返回 Base64 音频数据
+    } catch (error) {
+        console.error("Error fetching avatar:", error);
         return null;
     }
 };

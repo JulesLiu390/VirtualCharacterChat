@@ -9,7 +9,9 @@ router.post("/save", async(req, res) => {
         description : req.body.description,
         personality : req.body.personality,
         isPublic : req.body.isPublic,
-        avatarUrl : req.body.avatarUrl,
+        voiceID : req.body.voiceID,
+        avatarBase64 : req.body.avatarBase64,
+        imageBase64 : req.body.imageBase64
     });
 
     try {
@@ -64,7 +66,9 @@ router.put('/update/:id', async (req, res) => {
                 description : req.body.description,
                 personality : req.body.personality,
                 isPublic : req.body.isPublic,
-                avatarUrl : req.body.avatarUrl,
+                voiceID : req.body.voiceID,
+                avatarBase64 : req.body.avatarBase64,
+                imageBase64 : req.body.imageBase64
             }, 
         options
         );

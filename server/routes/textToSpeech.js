@@ -47,4 +47,79 @@ router.post("/synthesize", async (req, res) => {
   }
 });
 
+
+// router.post("/newVoice", async (req, res) => {
+//   try {
+//     const { voiceDescription, text } = req.body;
+
+//     if (!voiceDescription || !text) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
+
+//     const previewResponse = await client.textToVoice.createPreviews({
+//       voice_description: voiceDescription,
+//       text: text
+//     });
+
+//     const voiceId = previewResponse?.previews?.[0]?.generated_voice_id;
+
+//     if (!voiceId) {
+//       return res.status(500).json({ error: "Failed to generate voice ID" });
+//     }
+
+//     res.json({
+//       success: true,
+//       voice_id: voiceId
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+router.post("/newVoice", async (req, res) => {
+  try {
+    const { voiceDescription, text } = req.body;
+
+    if (!voiceDescription || !text) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // 生成预览语音
+    const previewResponse = await client.textToVoice.createPreviews({
+      voice_description: voiceDescription,
+      text: text
+    });
+
+    const previewVoiceId = previewResponse?.previews?.[0]?.generated_voice_id;
+
+    if (!previewVoiceId) {
+      return res.status(500).json({ error: "Failed to generate preview voice ID" });
+    }
+
+    // 用预览 ID 创建最终的 voice
+    const finalVoiceResponse = await client.textToVoice.createVoiceFromPreview({
+      voice_name: "Custom Voice",
+      voice_description: voiceDescription,
+      generated_voice_id: previewVoiceId
+    });
+
+    const finalVoiceId = finalVoiceResponse?.voice_id;
+
+    if (!finalVoiceId) {
+      return res.status(500).json({ error: "Failed to save final voice ID" });
+    }
+
+    res.json({
+      success: true,
+      voice_id: finalVoiceId
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

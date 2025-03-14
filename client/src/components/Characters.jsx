@@ -74,7 +74,7 @@ export const CharacterCard = ({data, index}) => {
         <div className='w-40 min-w-[160px] h-40 min-h-[160px] rounded-lg drop-shadow-lg relative overflow-hidden'>
             <motion.img 
                 whileHover={{scale:1.05}}
-                src={data.avatarUrl}
+                src={data.avatarBase64}
                 className='w-full h-full rounded-lg object-cover'
             />
         </div>

@@ -47,7 +47,7 @@ export const Game = () => {
         <Header/>
 
         <div className='flex flex-1 w-full justify-center overflow-hidden'>
-            <motion.img src={test_img} className='rounded-md h-full object-contain'
+            <motion.img src={currentCharacter.imageBase64} className='rounded-md h-full object-contain'
                     animate={{
                         x: [0, -5, 5, -5, 5, 0], // 左右抖动
                       }}
@@ -200,7 +200,7 @@ const ChatBox = ({d_width, d_height, jsonData, setJsonData}) => {
           },
           body: JSON.stringify({
             text: text,
-            voiceId: "A8d1lobSeZaSLrXNNZ1x",
+            voiceId: currentCharacter.voiceID
           })
         });
       

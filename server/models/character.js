@@ -17,7 +17,15 @@ const characterSchema = mongoose.Schema({
         type : Boolean,
         required : true,
     },
-    avatarUrl : {
+    voiceID : {
+        type : String,
+        required : true,
+    },
+    avatarBase64 : {
+        type : String,
+        required : true,
+    },
+    imageBase64 : {
         type : String,
         required : true,
     },
